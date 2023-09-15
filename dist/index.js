@@ -198,6 +198,7 @@ var Schedules = class {
       console.log(headers);
       for (const key of keysToBePrefixed) {
         const value = headers.get(key);
+        headers.delete(key);
         if (value !== null) {
           headers.set(`Upstash-Forward-${key}`, value);
         }

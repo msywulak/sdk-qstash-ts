@@ -110,7 +110,7 @@ export class Schedules {
     // Add the prefixed headers
     for (const key of keysToBePrefixed) {
       const value = headers.get(key);
-      // headers.delete(key) // clean up non-prefixed headers
+      headers.delete(key) // clean up non-prefixed headers
       if (value !== null) {
         headers.set(`Upstash-Forward-${key}`, value);
       }
