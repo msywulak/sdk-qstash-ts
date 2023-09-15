@@ -195,12 +195,14 @@ var Schedules = class {
       const keysToBePrefixed = Array.from(headers.keys()).filter(
         (key) => !ignoredHeaders.has(key.toLowerCase()) && !key.toLowerCase().startsWith("upstash-forward-")
       );
+      console.log(headers);
       for (const key of keysToBePrefixed) {
         const value = headers.get(key);
         if (value !== null) {
           headers.set(`Upstash-Forward-${key}`, value);
         }
       }
+      console.log(headers);
       if (!headers.has("Content-Type")) {
         headers.set("Content-Type", "application/json");
       }

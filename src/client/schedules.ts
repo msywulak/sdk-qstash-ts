@@ -105,14 +105,18 @@ export class Schedules {
       key => !ignoredHeaders.has(key.toLowerCase()) && !key.toLowerCase().startsWith("upstash-forward-")
     );
 
+    console.log(headers)
+
     // Add the prefixed headers
     for (const key of keysToBePrefixed) {
       const value = headers.get(key);
+      // headers.delete(key) // clean up non-prefixed headers
       if (value !== null) {
         headers.set(`Upstash-Forward-${key}`, value);
       }
     }
-
+    console.log(headers)
+    
     if (!headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
     }
