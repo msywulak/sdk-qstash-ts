@@ -91,6 +91,23 @@ export class Schedules {
   public async create(req: CreateScheduleRequest): Promise<{ scheduleId: string }> {
     const headers = new Headers(req.headers);
 
+    const ignoredHeaders = new Set([
+      "Content-Type",
+      "Upstash-Cron",
+      "Upstash-Method",
+      "Upstash-Delay",
+      "Upstash-Retries",
+      "Upstash-Callback"
+    ]);
+    
+    const prefix = "Upstash-Forward-";
+    
+    for (const [key, value] of Object.entries(headers)) {
+      if (!ignoredHeaders.has(key) && !key.startsWith(prefix)) {
+        headers.set(`${prefix}${key}`, value);
+      }
+    }
+
     if (!headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
     }
