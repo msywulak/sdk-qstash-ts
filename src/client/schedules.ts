@@ -102,7 +102,7 @@ export class Schedules {
     
     // Get keys of headers that need to be prefixed
     const keysToBePrefixed = Array.from(headers.keys()).filter(
-      key => !ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")
+      key => !ignoredHeaders.has(key.toLowerCase()) && !key.toLowerCase().startsWith("upstash-forward-")
     );
 
     // Add the prefixed headers

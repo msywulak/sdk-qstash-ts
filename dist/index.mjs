@@ -193,7 +193,7 @@ var Schedules = class {
         "upstash-callback"
       ]);
       const keysToBePrefixed = Array.from(headers.keys()).filter(
-        (key) => !ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")
+        (key) => !ignoredHeaders.has(key.toLowerCase()) && !key.toLowerCase().startsWith("upstash-forward-")
       );
       for (const key of keysToBePrefixed) {
         const value = headers.get(key);
