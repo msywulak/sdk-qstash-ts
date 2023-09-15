@@ -185,18 +185,22 @@ var Schedules = class {
     return _chunkEQTYEU4Ujs.__async.call(void 0, this, null, function* () {
       const headers = new Headers(req.headers);
       const ignoredHeaders = /* @__PURE__ */ new Set([
-        "Content-Type",
-        "Upstash-Cron",
-        "Upstash-Method",
-        "Upstash-Delay",
-        "Upstash-Retries",
-        "Upstash-Callback"
+        "content-type",
+        "upstash-cron",
+        "upstash-method",
+        "upstash-delay",
+        "upstash-retries",
+        "upstash-callback"
       ]);
-      headers.forEach((value, key) => {
-        if (!ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")) {
+      const keysToBePrefixed = Array.from(headers.keys()).filter(
+        (key) => !ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")
+      );
+      for (const key of keysToBePrefixed) {
+        const value = headers.get(key);
+        if (value !== null) {
           headers.set(`Upstash-Forward-${key}`, value);
         }
-      });
+      }
       if (!headers.has("Content-Type")) {
         headers.set("Content-Type", "application/json");
       }

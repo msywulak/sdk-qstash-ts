@@ -92,19 +92,26 @@ export class Schedules {
     const headers = new Headers(req.headers);
 
     const ignoredHeaders = new Set([
-      "Content-Type",
-      "Upstash-Cron",
-      "Upstash-Method",
-      "Upstash-Delay",
-      "Upstash-Retries",
-      "Upstash-Callback"
+      "content-type",
+      "upstash-cron",
+      "upstash-method",
+      "upstash-delay",
+      "upstash-retries",
+      "upstash-callback"
     ]);
     
-    headers.forEach((value, key) => {
-      if (!ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")) {
-        headers.set(`Upstash-Forward-${key}`, value)
+    // Get keys of headers that need to be prefixed
+    const keysToBePrefixed = Array.from(headers.keys()).filter(
+      key => !ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")
+    );
+
+    // Add the prefixed headers
+    for (const key of keysToBePrefixed) {
+      const value = headers.get(key);
+      if (value !== null) {
+        headers.set(`Upstash-Forward-${key}`, value);
       }
-    });
+    }
 
     if (!headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
