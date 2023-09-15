@@ -102,7 +102,7 @@ export class Schedules {
     
     const prefix = "Upstash-Forward-";
     
-    for (const [key, value] of Object.entries(headers)) {
+    for (const [key, value] of headers) {
       if (!ignoredHeaders.has(key) && !key.startsWith(prefix)) {
         headers.set(`${prefix}${key}`, value);
       }
