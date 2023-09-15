@@ -257,7 +257,8 @@ var Schedules = class {
     return __async(this, null, function* () {
       return yield this.http.request({
         method: "DELETE",
-        path: ["v2", "schedules", scheduleId]
+        path: ["v2", "schedules", scheduleId],
+        parseResponseAsJson: false
       });
     });
   }
