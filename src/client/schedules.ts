@@ -100,13 +100,12 @@ export class Schedules {
       "Upstash-Callback"
     ]);
     
-    const prefix = "Upstash-Forward-";
-    
-    for (const [key, value] of Object.entries(headers)) {
-      if (!ignoredHeaders.has(key) && !key.startsWith(prefix)) {
-        headers.set(`${prefix}${key}`, value);
+    headers.forEach((value, key) => {
+      if (!ignoredHeaders.has(key) && !key.startsWith("Upstash-Forward-")) {
+        headers.set(`Upstash-Forward-${key}`, value)
       }
-    }
+    });
+
 
     if (!headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
